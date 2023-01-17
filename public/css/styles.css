@@ -1,0 +1,14 @@
+header {
+  margin-bottom: 50px;
+}
+#snippetscard {
+  display: inline-block;
+  width: 700px;
+  margin: 10px;
+}
+#snippetsgrid {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+}

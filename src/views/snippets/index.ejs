@@ -1,0 +1,15 @@
+<%  %>
+<h1>Snippets</h1>
+<div id="snippetsgrid">
+  <% viewData.forEach((snippet) => { %>
+  <div class="card" id="snippetscard">
+    <div class="card-body">
+      <h5 class="card-title"><%- snippet.title %> </h5>
+      <h6 class="card-subtitle mb-2 text-muted"><%- snippet.user %> - <%- snippet.language %> </h6>
+      <p class="card-text"><%- hljs.highlightAuto(snippet.code).value %> </p>
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </div>
+  <% }) %>
+</div>
