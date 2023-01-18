@@ -1,4 +1,5 @@
 import hljs from 'highlight.js'
+import { Snippet } from '../models/snippet.js'
 /**
  * Module for the SnippetsController.
  *
@@ -9,26 +10,6 @@ import hljs from 'highlight.js'
 /**
  * Encapsulates a controller.
  */
-const viewData = [
-  {
-    user: 'Hampus Nilsson',
-    title: 'Hello World',
-    code: 'console.log("Hello World!")',
-    language: 'javascript'
-  },
-  {
-    user: 'Mala',
-    title: 'Hello World in Java',
-    code: 'public class HelloWorld {\npublic static void main(String[] args) {\n System.out.println("Hello World!");\n }\n}',
-    language: 'java'
-  },
-  {
-    user: 'Mala',
-    title: 'Hello World in Java',
-    code: 'public class HelloWorld {\npublic static void main(String[] args) {\n System.out.println("Hello World!");\n }\n}',
-    language: 'java'
-  }
-]
 export class SnippetsController {
   /**
    * Render snippets view.
@@ -39,6 +20,10 @@ export class SnippetsController {
    */
   async index (req, res, next) {
     try {
+      const viewData = await Snippet.find({})
+      if (!viewData) {
+        res.send('No snippets found')
+      }
       res.render('snippets/index', { viewData, hljs })
     } catch (error) {
       next(error)
@@ -56,7 +41,34 @@ export class SnippetsController {
   async create (req, res, next) {
     try {
       console.log(req.body);
-      res.render('snippets/create')
+      const tempData = {
+        title: 'Testtitle',
+        user: 'Testuser'
+      }
+      const snippet = new Snippet({ ...tempData, ...req.body })
+      await snippet.save()
+      res.redirect('./')
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async show (req, res, next) {
+    try {
+      const { id } = req.params
+      const viewData = await Snippet.findById(id)
+      res.render('snippets/show', { viewData, hljs })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async delete(req, res, next) {
+    try {
+      const { id } = req.params
+      await Snippet.findByIdAndDelete(id)
+      const viewData = await Snippet.find({})
+      res.render('snippets/index', { viewData, hljs })
     } catch (error) {
       next(error)
     }

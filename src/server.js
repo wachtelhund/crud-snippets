@@ -6,6 +6,7 @@ import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { router } from './routes/router.js'
 import { connectDB } from './config/mongoose.js'
+import methodOverride from 'method-override'
 
 try {
   await connectDB()
@@ -22,6 +23,7 @@ try {
       'script-src': ["'self'", 'cdn.jsdelivr.net']
     }
   }))
+  app.use(methodOverride('_method'))
 
   app.use(express.urlencoded({ extended: false }))
 

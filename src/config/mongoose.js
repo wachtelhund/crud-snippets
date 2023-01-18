@@ -1,11 +1,12 @@
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+dotenv.config({ path: '../.env' })
 /**
  * Mongoose configuration.
  *
  * @author Hampus Nilsson
  * @version 1.0.0
  */
-
-import mongoose from 'mongoose'
 
 /**
  * Establishes a connection to a database.
