@@ -20,6 +20,7 @@ export class SnippetsController {
    */
   async index (req, res, next) {
     try {
+      // TODO: Use map to select specific fields.
       const viewData = await Snippet.find({})
       if (!viewData) {
         res.send('No snippets found')
@@ -40,12 +41,24 @@ export class SnippetsController {
 
   async create (req, res, next) {
     try {
-      console.log(req.body);
-      const tempData = {
-        title: 'Testtitle',
-        user: 'Testuser'
+      let withLineNumbers = ''
+      let count = 0
+      withLineNumbers += `${count} `
+      count++
+      for (const char of req.body.code) {
+        withLineNumbers += char
+        if (char === '\n') {
+          withLineNumbers += `${count} `
+          count++
+        }
       }
-      const snippet = new Snippet({ ...tempData, ...req.body })
+      const data = {
+        title: 'Testtitle',
+        user: 'Testuser',
+        code: withLineNumbers,
+        language: req.body.language
+      }
+      const snippet = new Snippet({ ...data })
       await snippet.save()
       res.redirect('./')
     } catch (error) {
@@ -56,6 +69,7 @@ export class SnippetsController {
   async show (req, res, next) {
     try {
       const { id } = req.params
+      // TODO: Use map to select specific fields.
       const viewData = await Snippet.findById(id)
       res.render('snippets/show', { viewData, hljs })
     } catch (error) {

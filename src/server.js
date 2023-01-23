@@ -6,6 +6,7 @@ import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { router } from './routes/router.js'
 import { connectDB } from './config/mongoose.js'
+// TODO: SHouldn\t use method override
 import methodOverride from 'method-override'
 
 try {
@@ -23,6 +24,7 @@ try {
       'script-src': ["'self'", 'cdn.jsdelivr.net']
     }
   }))
+  // TODO: Shouldn\t use method override
   app.use(methodOverride('_method'))
 
   app.use(express.urlencoded({ extended: false }))
@@ -38,6 +40,12 @@ try {
   app.use((req, res, next) => {
     // Pass the base URL to the views.
     res.locals.baseURL = baseURL
+
+    //if (req.session.flash) {
+      //res.locals.flash = req.session.flash
+      //delete req.session.flash
+    //}
+
     next()
   })
 
