@@ -1,0 +1,13 @@
+<h1>Edit your code snippet!</h1>
+<form action="./snippets/<%- viewData._id %>/update" method="POST">
+  <label class="form-label" for="language">Title</label>
+  <input required name="title" type="text" class="form-control" id="title" placeholder="Enter a title..."
+    value="<%- viewData.title %>">
+  <label for="language">Language</label>
+  <input required name="language" type="text" class="form-control" id="language" placeholder="Enter a language..."
+    value="<%- viewData.language %> ">
+  <label for="codearea">Code</label>
+  <textarea required name="code" class="form-control" id="codearea" rows="3"
+    placeholder="Write your code here..."><%- viewData.code %></textarea>
+  <button type="submit" class="mt-2 btn btn-primary">Submit changes</button>
+</form>

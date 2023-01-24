@@ -14,7 +14,8 @@ const schema = new mongoose.Schema({
     required: 'Code is required'
   },
   language: {
-    type: String
+    type: String,
+    required: 'Language is required'
   }
 }, { timestamps: true })
 
