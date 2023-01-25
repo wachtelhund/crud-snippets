@@ -31,6 +31,13 @@ export class SnippetsController {
     }
   }
 
+  /**
+   * Method for getting creation form.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async createForm (req, res, next) {
     try {
       res.render('snippets/create')
@@ -39,6 +46,13 @@ export class SnippetsController {
     }
   }
 
+  /**
+   * Method for getting edit form.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async editForm (req, res, next) {
     try {
       const { id } = req.params
@@ -49,6 +63,12 @@ export class SnippetsController {
     }
   }
 
+  /**
+   * Takes a multiline code string and inserts line numbers.
+   *
+   * @param {string} code The code to add line numbers to.
+   * @returns {string} The code with line numbers.
+   */
   addLineNumbers = (code) => {
     let withLineNumbers = ''
     let count = 0
@@ -64,19 +84,15 @@ export class SnippetsController {
     return withLineNumbers
   }
 
+  /**
+   * Method for creating snippets.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async create (req, res, next) {
     try {
-      //let withLineNumbers = ''
-      //let count = 0
-      //withLineNumbers += `${count} `
-      //count++
-      //for (const char of req.body.code) {
-        //withLineNumbers += char
-        //if (char === '\n') {
-          //withLineNumbers += `${count} `
-          //count++
-        //}
-      //}
       const withLineNumbers = this.addLineNumbers(req.body.code)
       const data = {
         title: req.body.title,
@@ -89,23 +105,40 @@ export class SnippetsController {
       req.session.flash = { type: 'success', text: 'The snippet was saved successfully.' }
       res.redirect('./')
     } catch (error) {
+      req.session.flash = { type: 'danger', text: error.message || 'Something went wrong.' }
       next(error)
     }
   }
 
+  /**
+   * Method for updating specific snippets.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async update (req, res, next) {
     try {
       const { id } = req.params
-      let newCode = req.body.code.replace(/[\d+ ]*/gm, '')
+      // Recreates the code with line numbers.
+      let newCode = req.body.code.replace(/( ?\d+ )*/gm, '')
       newCode = this.addLineNumbers(newCode)
       await Snippet.findByIdAndUpdate(id, { title: req.body.title, code: newCode, language: req.body.language })
       req.session.flash = { type: 'success', text: 'The snippet was updated successfully.' }
       res.redirect('../')
     } catch (error) {
+      req.session.flash = { type: 'danger', text: error.message || 'Something went wrong.' }
       next(error)
     }
   }
 
+  /**
+   * Method for showing specific snippets.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async show (req, res, next) {
     try {
       const { id } = req.params
@@ -117,13 +150,21 @@ export class SnippetsController {
     }
   }
 
-  async delete(req, res, next) {
+  /**
+   * Method for deleting snippets.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+  async delete (req, res, next) {
     try {
       const { id } = req.params
       await Snippet.findByIdAndDelete(id)
       req.session.flash = { type: 'danger', text: 'The snippet was deleted successfully.' }
       res.redirect('../')
     } catch (error) {
+      req.session.flash = { type: 'danger', text: error.message || 'Something went wrong.' }
       next(error)
     }
   }
