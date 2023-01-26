@@ -68,7 +68,7 @@ try {
     next()
   })
 
-  app.use('/', router)
+  app.use(baseURL, router)
 
   // Error handler.
   app.use(function (err, req, res, next) {
