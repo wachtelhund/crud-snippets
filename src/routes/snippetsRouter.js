@@ -26,8 +26,10 @@ controller.isOwner = async (req, res, next) => {
   const snippet = await Snippet.findById(id)
   if (snippet.user === req.session.username) {
     next()
+  } else if (req.session.username) {
+    next(createHttpError(403, 'You are not the owner of this snippet.'))
   } else {
-    next(createHttpError(403, 'You are not the owner of this snippet'))
+    next(createHttpError(404))
   }
 }
 

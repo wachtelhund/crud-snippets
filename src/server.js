@@ -9,6 +9,7 @@ import { connectDB } from './config/mongoose.js'
 import session from 'express-session'
 // TODO: SHouldn\t use method override
 import methodOverride from 'method-override'
+import { Session } from 'inspector'
 
 try {
   await connectDB()
@@ -101,7 +102,6 @@ try {
     console.log(`Server is running on port ${PORT}`)
   })
 } catch (error) {
-  console.log('hej');
   console.error(error)
   process.exitCode = 1
 }
