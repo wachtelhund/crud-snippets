@@ -12,12 +12,12 @@ export class UsersController {
 
   async postLogin (req, res, next) {
     try {
-      const authenticatedUser = await User.isCorrectPassword(req.body.username, req.body.password)
-      req.session.regenerate(() => {
+      req.session.regenerate(async () => {
+        const authenticatedUser = await User.isCorrectPassword(req.body.username, req.body.password)
         req.session.username = req.body.username
+        req.session.flash = { type: 'success', text: 'You are now logged in. Welcome ' + authenticatedUser.username + '!' }
+        res.redirect('../snippets')
       })
-      req.session.flash = { type: 'success', text: 'You are now logged in. Welcome ' + authenticatedUser.username + '!' }
-      res.redirect('../snippets')
     } catch (error) {
       req.session.flash = { type: 'danger', text: 'Wrong username or password.' }
       res.redirect('../users/login')
@@ -35,10 +35,13 @@ export class UsersController {
 
   async postRegister (req, res, next) {
     try {
-      const user = new User({ username: req.body.username, password: req.body.password })
-      await user.save()
-      req.session.flash = { type: 'success', text: 'You are now registered. Welcome ' + req.body.username.trim() + '!' }
-      res.redirect('../snippets')
+      req.session.regenerate(async () => {
+        const user = new User({ username: req.body.username, password: req.body.password })
+        await user.save()
+        req.session.username = user.username
+        req.session.flash = { type: 'success', text: 'You are now registered. Welcome ' + req.body.username.trim() + '!' }
+        res.redirect('../snippets')
+      })
     } catch (error) {
       req.session.flash = { type: 'danger', text: 'User already exists' }
       res.redirect('./register')

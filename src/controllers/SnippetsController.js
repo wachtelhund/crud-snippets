@@ -25,6 +25,7 @@ export class SnippetsController {
       if (!viewData) {
         res.send('No snippets found')
       }
+      viewData.activeUser = req.session.username
       res.render('snippets/index', { viewData, hljs })
     } catch (error) {
       next(error)
@@ -96,7 +97,7 @@ export class SnippetsController {
       const withLineNumbers = this.addLineNumbers(req.body.code)
       const data = {
         title: req.body.title,
-        user: 'test',
+        user: req.session.username,
         code: withLineNumbers,
         language: req.body.language
       }

@@ -48,12 +48,12 @@ try {
     }
   }
 
-  app.use(session(sessionOptions))
-
   if (app.get('env') === 'production') {
     app.set('trust proxy', 1) // trust first proxy
     sessionOptions.cookie.secure = true // serve secure cookies
   }
+
+  app.use(session(sessionOptions))
 
   // Middleware to be executed before the routes.
   app.use((req, res, next) => {
