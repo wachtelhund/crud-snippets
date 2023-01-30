@@ -13,6 +13,14 @@ export const router = express.Router()
 
 const controller = new SnippetsController()
 
+controller.authorize = (req, res, next) => {
+  if (req.session.user) {
+    next()
+  } else {
+    res.redirect('/users/login')
+  }
+}
+
 // Map HTTP verbs and route paths to controller actions.
 router.get('/', (req, res, next) => controller.index(req, res, next))
 router.get('/create', (req, res, next) => controller.createForm(req, res, next))

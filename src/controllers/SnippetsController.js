@@ -96,7 +96,7 @@ export class SnippetsController {
       const withLineNumbers = this.addLineNumbers(req.body.code)
       const data = {
         title: req.body.title,
-        user: 'Testuser',
+        user: 'test',
         code: withLineNumbers,
         language: req.body.language
       }
