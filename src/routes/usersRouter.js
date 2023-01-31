@@ -12,6 +12,18 @@ import { UsersController } from '../controllers/UsersController.js'
 export const router = express.Router()
 
 const controller = new UsersController()
+
+controller.isLoggedIn = (req, res, next) => {
+  if (req.session.username) {
+    next()
+  } else {
+    res.redirect('/users/login')
+  }
+}
+
+router.get('/', (req, res, next) => controller.index(req, res, next))
+router.post('/delete', controller.isLoggedIn, (req, res, next) => controller.delete(req, res, next))
+router.post('/logout', controller.isLoggedIn, (req, res, next) => controller.logout(req, res, next))
 router.get('/login', (req, res, next) => controller.login(req, res, next))
 router.post('/login', (req, res, next) => controller.postLogin(req, res, next))
 router.get('/register', (req, res, next) => controller.register(req, res, next))

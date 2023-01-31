@@ -2,6 +2,39 @@ import session from "express-session"
 import { User } from '../models/user.js'
 
 export class UsersController {
+  async index (req, res, next) {
+    try {
+      const user = await User.findOne({ username: req.session.username })
+      const viewData = {}
+      viewData.username = req.session.username
+      //if (req.session.username) {
+        //viewData.username = user.username
+      //}
+      res.render('users/index', { viewData })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async delete (req, res, next) {
+    try {
+      await User.findOneAndDelete({ username: req.session.username })
+      req.session.flash = { type: 'success', text: 'Your account was removed.' }
+      res.redirect('../snippets')
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async logout (req, res, next) {
+    try {
+      req.session.destroy()
+      res.redirect('../snippets')
+    } catch (error) {
+      next(error)
+    }
+  }
+
   async login (req, res, next) {
     try {
       res.render('users/login')
