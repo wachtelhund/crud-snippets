@@ -1,5 +1,6 @@
 import hljs from 'highlight.js'
 import { Snippet } from '../models/snippet.js'
+import createError from 'http-errors'
 /**
  * Module for the SnippetsController.
  *
@@ -147,7 +148,7 @@ export class SnippetsController {
       const viewData = await Snippet.findById(id)
       res.render('snippets/show', { viewData, hljs })
     } catch (error) {
-      next(error)
+      next(createError(404, 'Snippet not found'))
     }
   }
 

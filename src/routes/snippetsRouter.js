@@ -44,11 +44,9 @@ controller.isOwner = async (req, res, next) => {
       next()
     } else if (req.session.username) {
       next(createError(403, 'You are not the owner of this snippet.'))
-    } else {
-      next(createError(404))
     }
   } catch (error) {
-    next(error)
+    next(createError(404, 'Snippet not found.'))
   }
 }
 
