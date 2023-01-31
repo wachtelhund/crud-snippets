@@ -17,7 +17,8 @@ controller.isLoggedIn = (req, res, next) => {
   if (req.session.username) {
     next()
   } else {
-    res.redirect('/users/login')
+    // next(createHttpError(404))
+    res.redirect('/users')
   }
 }
 

@@ -17,7 +17,7 @@ controller.isLoggedIn = (req, res, next) => {
   if (req.session.username) {
     next()
   } else {
-    res.redirect('/users/login')
+    res.redirect('/users/')
   }
 }
 
