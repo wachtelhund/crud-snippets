@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import { User } from './user.js'
 
 const schema = new mongoose.Schema({
   user: {

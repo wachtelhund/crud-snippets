@@ -1,8 +1,23 @@
-import session from "express-session"
-import { Snippet } from "../models/snippet.js"
+import { Snippet } from '../models/snippet.js'
 import { User } from '../models/user.js'
+/**
+ * Module for the SnippetsController.
+ *
+ * @author Hampus Nilsson
+ * @version 1.0.0
+ */
 
+/**
+ * Snippets controller.
+ */
 export class UsersController {
+  /**
+   * Render login form.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async index (req, res, next) {
     try {
       const viewData = {}
@@ -13,29 +28,51 @@ export class UsersController {
     }
   }
 
+  /**
+   * Delete user and all snippets.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async delete (req, res, next) {
     try {
       await User.findOneAndDelete({ username: req.session.username })
       await Snippet.deleteMany({ user: req.session.username })
       req.session.destroy(() => {
-        req.session.flash = { type: 'success', text: 'Your account was removed.' }
         res.redirect('../snippets')
       })
     } catch (error) {
+      req.session.flash = { type: 'danger', text: 'Something went wrong deleting your account.' }
       next(error)
     }
   }
 
+  /**
+   * Log out user.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async logout (req, res, next) {
     try {
       req.session.destroy(() => {
         res.redirect('../')
       })
     } catch (error) {
+      req.session.flash = { type: 'danger', text: 'Something went wrong logging out your account.' }
       next(error)
     }
   }
 
+  /**
+   * Render login page.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async login (req, res, next) {
     try {
       res.render('users/login')
@@ -44,6 +81,13 @@ export class UsersController {
     }
   }
 
+  /**
+   * Check authentication and log in user.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async postLogin (req, res, next) {
     try {
       const authenticatedUser = await User.isCorrectPassword(req.body.username, req.body.password)
@@ -58,6 +102,13 @@ export class UsersController {
     }
   }
 
+  /**
+   * Render register page.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async register (req, res, next) {
     try {
       res.render('users/register')
@@ -67,6 +118,13 @@ export class UsersController {
     }
   }
 
+  /**
+   * Check validity of user input and register user.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async postRegister (req, res, next) {
     req.session.regenerate(async () => {
       try {

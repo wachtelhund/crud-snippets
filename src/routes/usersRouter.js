@@ -1,4 +1,3 @@
-
 /**
  * Home routes.
  *
@@ -13,6 +12,13 @@ export const router = express.Router()
 
 const controller = new UsersController()
 
+/**
+ * Middleware to check if user is logged in.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ */
 controller.isLoggedIn = (req, res, next) => {
   if (req.session.username) {
     next()

@@ -7,8 +7,9 @@ import { fileURLToPath } from 'url'
 import { router } from './routes/router.js'
 import { connectDB } from './config/mongoose.js'
 import session from 'express-session'
-// TODO: SHouldn\t use method override
-import methodOverride from 'method-override'
+/**
+ * Main application.
+ */
 
 try {
   await connectDB()
@@ -25,8 +26,6 @@ try {
       'script-src': ["'self'", 'cdn.jsdelivr.net']
     }
   }))
-  // TODO: Shouldn\t use method override
-  app.use(methodOverride('_method'))
 
   app.use(express.urlencoded({ extended: false }))
 

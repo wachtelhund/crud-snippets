@@ -8,7 +8,7 @@ import { Snippet } from '../models/snippet.js'
  */
 
 /**
- * Encapsulates a controller.
+ * Snippets controller.
  */
 export class SnippetsController {
   /**
