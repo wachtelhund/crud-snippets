@@ -10,7 +10,6 @@ import session from 'express-session'
 /**
  * Main application.
  */
-
 try {
   await connectDB()
   const app = express()
@@ -79,6 +78,11 @@ try {
     }
 
     // TODO: Add unauthorized error page.
+    if (err.status === 403) {
+      return res
+        .status(403)
+        .sendFile(join(dirName, 'views', 'errors', '403.html'))
+    }
 
     // 500 Internal Server Error (in production, all other errors send this response).
     if (req.app.get('env') !== 'development') {

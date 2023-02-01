@@ -54,6 +54,7 @@ router.get('/', (req, res, next) => controller.index(req, res, next))
 router.get('/create', controller.isLoggedIn, (req, res, next) => controller.createForm(req, res, next))
 router.post('/create', controller.isLoggedIn, (req, res, next) => controller.create(req, res, next))
 router.get('/:id', controller.isOwner, (req, res, next) => controller.show(req, res, next))
+
 router.post('/:id/delete', controller.isOwner, (req, res, next) => controller.delete(req, res, next))
 router.get('/:id/edit', controller.isOwner, (req, res, next) => controller.editForm(req, res, next))
 router.post('/:id/update', controller.isOwner, (req, res, next) => controller.update(req, res, next))
