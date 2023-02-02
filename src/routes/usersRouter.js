@@ -1,12 +1,11 @@
+import express from 'express'
+import { UsersController } from '../controllers/UsersController.js'
 /**
  * Home routes.
  *
  * @author Hampus Nilsson
  * @version 1.0.0
  */
-
-import express from 'express'
-import { UsersController } from '../controllers/UsersController.js'
 
 export const router = express.Router()
 

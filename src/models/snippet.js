@@ -1,5 +1,8 @@
 import mongoose from 'mongoose'
 
+/**
+ * Snippet model.
+ */
 const schema = new mongoose.Schema({
   user: {
     type: String,

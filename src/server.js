@@ -48,15 +48,13 @@ try {
   }
 
   if (app.get('env') === 'production') {
-    app.set('trust proxy', 1) // trust first proxy
-    sessionOptions.cookie.secure = true // serve secure cookies
+    app.set('trust proxy', 1)
+    sessionOptions.cookie.secure = true
   }
 
   app.use(session(sessionOptions))
 
-  // Middleware to be executed before the routes.
   app.use((req, res, next) => {
-    // Pass the base URL to the views.
     res.locals.baseURL = baseURL
     res.locals.isLoggedIn = req.session.isLoggedIn
 
@@ -70,7 +68,6 @@ try {
 
   app.use(baseURL, router)
 
-  // Error handler.
   app.use(function (err, req, res, next) {
     if (err.status === 404) {
       return res
@@ -84,17 +81,12 @@ try {
         .sendFile(join(dirName, 'views', 'errors', '403.html'))
     }
 
-    // 500 Internal Server Error (in production, all other errors send this response).
     if (req.app.get('env') !== 'development') {
       return res
         .status(500)
         .sendFile(join(dirName, 'views', 'errors', '500.html'))
     }
 
-    // Development only!
-    // Only providing detailed error in development.
-
-    // Render the error page.
     res
       .status(err.status || 500)
       .render('errors/error', { error: err })

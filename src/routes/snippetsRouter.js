@@ -1,13 +1,13 @@
+import express from 'express'
+import createError from 'http-errors'
+import { SnippetsController } from '../controllers/SnippetsController.js'
+import { Snippet } from '../models/snippet.js'
 /**
  * Home routes.
  *
  * @author Hampus Nilsson
  * @version 1.0.0
  */
-import express from 'express'
-import createError from 'http-errors'
-import { SnippetsController } from '../controllers/SnippetsController.js'
-import { Snippet } from '../models/snippet.js'
 
 export const router = express.Router()
 
