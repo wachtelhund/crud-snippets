@@ -42,7 +42,6 @@ export class UsersController {
       req.session.destroy(() => {
         res.redirect('../snippets')
       })
-      // TODO: Add flash message for when user successfully deletes account.
     } catch (error) {
       req.session.flash = { type: 'danger', text: 'Something went wrong deleting your account.' }
       next(error)
@@ -61,7 +60,6 @@ export class UsersController {
       req.session.destroy(() => {
         res.redirect('../')
       })
-      // TODO: Add flash message for when user successfully logs out.
     } catch (error) {
       req.session.flash = { type: 'danger', text: 'Something went wrong logging out your account.' }
       next(error)

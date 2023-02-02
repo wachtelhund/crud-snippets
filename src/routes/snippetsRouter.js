@@ -21,12 +21,10 @@ const controller = new SnippetsController()
  * @param {Function} next - Express next middleware function.
  */
 controller.isLoggedIn = (req, res, next) => {
-  if (req.session.username) {
+  if (req.session.isLoggedIn) {
     next()
   } else {
-    // TODO: Is it okay to redirect instead of showing an error page?
     next(createError(404))
-    // res.redirect('../users')
   }
 }
 
@@ -43,7 +41,7 @@ controller.isOwner = async (req, res, next) => {
     const snippet = await Snippet.findById(id)
     if (snippet.user === req.session.username) {
       next()
-    } else if (req.session.username) {
+    } else if (req.session.isLoggedIn) {
       next(createError(403, 'You are not the owner of this snippet.'))
     }
   } catch (error) {

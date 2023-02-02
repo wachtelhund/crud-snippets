@@ -7,7 +7,6 @@
 
 import express from 'express'
 import { UsersController } from '../controllers/UsersController.js'
-import createError from 'http-errors'
 
 export const router = express.Router()
 
@@ -21,7 +20,7 @@ const controller = new UsersController()
  * @param {Function} next - Express next middleware function.
  */
 controller.isLoggedIn = (req, res, next) => {
-  if (req.session.username) {
+  if (req.session.isLoggedIn) {
     next()
   } else {
     res.redirect('/users/')

@@ -15,7 +15,7 @@
           <h6 class="card-subtitle mb-2 text-muted"><%- snippet.user %> - <%- snippet.language %> </h6>
           <pre class="card-text"><%- hljs.highlightAuto(snippet.code).value %> </pre>
           <% if (viewData.activeUser === snippet.user) { %>
-          <a href="./snippets/<%- snippet._id %> " class="card-link btn btn-primary">Details</a>
+          <a href="./snippets/<%- snippet.id %> " class="card-link btn btn-primary">Details</a>
           <% } %>
         </div>
       </div>

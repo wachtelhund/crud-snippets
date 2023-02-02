@@ -5,8 +5,8 @@
       <h6 class="card-subtitle mb-2 text-muted"><%- viewData.user %> - <%- viewData.language %> </h6>
       <pre class="card-text"><%- hljs.highlightAuto(viewData.code).value %></pre>
       <a href="./snippets" class="btn btn-primary card-link">Back</a>
-      <a href="./snippets/<%- viewData._id %>/edit" class="btn btn-primary card-link">Edit</a>
-      <form class="d-inline" method="POST" action="./snippets/<%- viewData._id %>/delete">
+      <a href="./snippets/<%- viewData.id %>/edit" class="btn btn-primary card-link">Edit</a>
+      <form class="d-inline" method="POST" action="./snippets/<%- viewData.id %>/delete">
         <button class="btn btn-danger" type="submit">Delete</button>
       </form>
     </div>

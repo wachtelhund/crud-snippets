@@ -21,8 +21,16 @@ export class SnippetsController {
    */
   async index (req, res, next) {
     try {
-      // TODO: Use map to select specific fields.
-      const viewData = await Snippet.find({})
+      const data = await Snippet.find({})
+      const viewData = data.map(snippet => {
+        return {
+          id: snippet._id,
+          title: snippet.title,
+          language: snippet.language,
+          code: snippet.code,
+          user: snippet.user
+        }
+      })
       if (!viewData) {
         res.send('No snippets found')
       }
@@ -144,8 +152,14 @@ export class SnippetsController {
   async show (req, res, next) {
     try {
       const { id } = req.params
-      // TODO: Use map to select specific fields.
-      const viewData = await Snippet.findById(id)
+      const data = await Snippet.findById(id)
+      const viewData = {
+        id: data._id,
+        title: data.title,
+        language: data.language,
+        code: data.code,
+        user: data.user
+      }
       res.render('snippets/show', { viewData, hljs })
     } catch (error) {
       next(createError(404, 'Snippet not found'))
