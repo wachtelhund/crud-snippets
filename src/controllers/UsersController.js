@@ -42,6 +42,7 @@ export class UsersController {
       req.session.destroy(() => {
         res.redirect('../snippets')
       })
+      // TODO: Add flash message for when user successfully deletes account.
     } catch (error) {
       req.session.flash = { type: 'danger', text: 'Something went wrong deleting your account.' }
       next(error)
@@ -60,6 +61,7 @@ export class UsersController {
       req.session.destroy(() => {
         res.redirect('../')
       })
+      // TODO: Add flash message for when user successfully logs out.
     } catch (error) {
       req.session.flash = { type: 'danger', text: 'Something went wrong logging out your account.' }
       next(error)
@@ -94,6 +96,7 @@ export class UsersController {
       req.session.regenerate(async () => {
         req.session.username = req.body.username
         req.session.flash = { type: 'success', text: 'You are now logged in. Welcome ' + authenticatedUser.username + '!' }
+        req.session.isLoggedIn = true
         res.redirect('../snippets')
       })
     } catch (error) {
@@ -133,6 +136,7 @@ export class UsersController {
         }
         const user = new User({ username: req.body.username, password: req.body.password })
         await user.save()
+        req.session.isLoggedIn = true
         req.session.username = user.username
         req.session.flash = { type: 'success', text: 'You are now registered. Welcome ' + req.body.username.trim() + '!' }
         res.redirect('../snippets')

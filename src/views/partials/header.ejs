@@ -9,8 +9,14 @@
       <div class="navbar-nav">
         <a class="nav-link nav-item" href="./">Home</a>
         <a class="nav-link nav-item" href="./snippets">Snippets</a>
+        <% if (isLoggedIn) { %>
         <a class="nav-link nav-item" href="./snippets/create">Create snippet</a>
-        <a class="nav-link nav-item" href="./users/">User actions</a>
+        <% } %>
+        <% if (isLoggedIn) { %>
+        <a class="nav-link nav-item" href="./users/">Logout/Unregister</a>
+        <% } else { %>
+        <a class="nav-link nav-item" href="./users/">Login/Register</a>
+        <% } %>
       </div>
     </div>
   </nav>

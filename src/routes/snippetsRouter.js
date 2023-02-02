@@ -24,8 +24,9 @@ controller.isLoggedIn = (req, res, next) => {
   if (req.session.username) {
     next()
   } else {
-    // next(createHttpError(404))
-    res.redirect('../users')
+    // TODO: Is it okay to redirect instead of showing an error page?
+    next(createError(404))
+    // res.redirect('../users')
   }
 }
 
@@ -58,5 +59,3 @@ router.get('/:id', controller.isOwner, (req, res, next) => controller.show(req, 
 router.post('/:id/delete', controller.isOwner, (req, res, next) => controller.delete(req, res, next))
 router.get('/:id/edit', controller.isOwner, (req, res, next) => controller.editForm(req, res, next))
 router.post('/:id/update', controller.isOwner, (req, res, next) => controller.update(req, res, next))
-
-router.use('*', (req, res, next) => next(createError(404)))

@@ -1,13 +1,14 @@
-<% if(viewData.username) { %>
+<% if(isLoggedIn) { %>
 <h2>Hello <%- viewData.username %></h2>
 <form method="POST" action="./users/logout">
-  <button class="btn btn-danger">Logout</button>
+  <button class="btn btn-primary">Logout</button>
 </form>
-<form method="POST" action="./users/delete">
+<form method="POST" action="./users/delete" class="mt-5">
+  <p>Removing your account will permanently remove all of your snippets!</p>
   <button class="btn btn-danger">Remove account</button>
 </form>
 <% } %>
-<% if (!viewData.username) { %>
+<% if (!isLoggedIn) { %>
 <h2>Would you like to login or register?</h2>
 <h4>(An account is needed to create snippets)</h4>
 <div class="btn-group" role="group">

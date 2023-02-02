@@ -18,6 +18,7 @@ try {
   const PORT = process.env.PORT || 3000
 
   app.use(logger('dev'))
+
   app.use(helmet())
   app.use(helmet.contentSecurityPolicy({
     directives: {
@@ -57,6 +58,7 @@ try {
   app.use((req, res, next) => {
     // Pass the base URL to the views.
     res.locals.baseURL = baseURL
+    res.locals.isLoggedIn = req.session.isLoggedIn
 
     if (req.session.flash) {
       res.locals.flash = req.session.flash
@@ -70,14 +72,12 @@ try {
 
   // Error handler.
   app.use(function (err, req, res, next) {
-    // 404 Not Found.
     if (err.status === 404) {
       return res
         .status(404)
         .sendFile(join(dirName, 'views', 'errors', '404.html'))
     }
 
-    // TODO: Add unauthorized error page.
     if (err.status === 403) {
       return res
         .status(403)

@@ -7,6 +7,7 @@
 
 import express from 'express'
 import { UsersController } from '../controllers/UsersController.js'
+import createError from 'http-errors'
 
 export const router = express.Router()
 
@@ -34,4 +35,3 @@ router.get('/login', (req, res, next) => controller.login(req, res, next))
 router.post('/login', (req, res, next) => controller.postLogin(req, res, next))
 router.get('/register', (req, res, next) => controller.register(req, res, next))
 router.post('/register', (req, res, next) => controller.postRegister(req, res, next))
-router.get('/:id', (req, res, next) => controller.show(req, res, next))
