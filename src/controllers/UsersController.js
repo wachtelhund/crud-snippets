@@ -1,5 +1,6 @@
 import { Snippet } from '../models/snippet.js'
 import { User } from '../models/user.js'
+import createError from 'http-errors'
 /**
  * Module for the SnippetsController.
  *
@@ -57,6 +58,9 @@ export class UsersController {
    */
   async logout (req, res, next) {
     try {
+      if (!req.session.isLoggedIn) {
+        next(createError(404))
+      }
       req.session.destroy(() => {
         res.redirect('../')
       })
